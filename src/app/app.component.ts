@@ -9,6 +9,7 @@ import { PersonalInfoComponent } from './components/personal-info.component';
 import { PlansComponent } from './components/plans.component';
 import { AddOnsComponent } from './components/add-ons.component';
 import { SummaryComponent } from './components/summary.component';
+import { CompleteComponent } from './components/complete.component';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ import { SummaryComponent } from './components/summary.component';
     BackButtonComponent,
     NextButtonComponent,
     AddOnsComponent,
-    SummaryComponent
+    SummaryComponent,
+    CompleteComponent
   ],
   template: `
     <main class="relative min-h-screen bg-magnolia">
@@ -43,7 +45,8 @@ import { SummaryComponent } from './components/summary.component';
           <!-- <nas-personal-info /> -->
           <!-- <nas-plans /> -->
           <!-- <nas-add-ons /> -->
-          <nas-summary />
+          <!-- <nas-summary /> -->
+          <nas-complete />
         </div>
 
         <!-- Navigation -->
