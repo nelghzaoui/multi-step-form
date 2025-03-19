@@ -12,7 +12,7 @@ import { Component, computed, input } from '@angular/core';
           'bg-sky border-sky text-marine': step === currentStep(),
           'border-white text-white': step !== currentStep()
         }"
-        class="border-1 rounded-4xl px-3 py-1 font-bold"
+        class="border-1 rounded-4xl px-3 py-1"
       >
         {{ step }}
       </button>
