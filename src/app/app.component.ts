@@ -7,6 +7,7 @@ import {
 } from './shared';
 import { PersonalInfoComponent } from './components/personal-info.component';
 import { PlansComponent } from './components/plans.component';
+import { AddOnsComponent } from './components/add-ons.component';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ import { PlansComponent } from './components/plans.component';
     PersonalInfoComponent,
     PlansComponent,
     BackButtonComponent,
-    NextButtonComponent
+    NextButtonComponent,
+    AddOnsComponent
   ],
   template: `
     <main class="relative min-h-screen bg-magnolia">
@@ -36,7 +38,9 @@ import { PlansComponent } from './components/plans.component';
           <!-- Stepper -->
           <nas-stepper [currentStep]="currentStep" [maxStep]="4" />
           <!-- CurrentStep -->
-          <nas-plans />
+          <!-- <nas-personal-info /> -->
+          <!-- <nas-plans /> -->
+          <nas-add-ons />
         </div>
 
         <!-- Navigation -->
