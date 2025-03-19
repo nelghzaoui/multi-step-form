@@ -5,27 +5,43 @@ import {
   NextButtonComponent,
   StepperComponent
 } from './shared';
+import { PersonalInfoComponent } from './components/personal-info.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
     StepperComponent,
+    PersonalInfoComponent,
     BackButtonComponent,
     NextButtonComponent
   ],
   template: `
-    <header></header>
+    <picture class="absolute inset-0 -z-10">
+      <source media="(min-width: 800px)" srcset="bg-sidebar-mobile.svg" />
+      <source media="(min-width: 480px)" srcset="bg-sidebar-desktop.svg" />
+      <img
+        src="assets/images/bg-sidebar-mobile.svg"
+        alt="Description of the image"
+        class="w-full -z-10"
+      />
+    </picture>
 
-    <main>
+    <div class="flex flex-col items-center p-6 gap-6">
       <!-- Stepper -->
-      <router-outlet />
-      <!-- Navigation -->
-    </main>
+      <nas-stepper [currentStep]="currentStep" [maxStep]="4" />
+      <!-- CurrentStep -->
+      <nas-personal-info />
+      <!-- <router-outlet /> -->
 
-    <footer></footer>
+      <!-- Navigation -->
+      <nav class="flex justify-between">
+        <nas-back-button />
+        <nas-next-button />
+      </nav>
+    </div>
   `
 })
 export class AppComponent {
-  title = 'multi-form-step';
+  currentStep: number = 1;
 }
