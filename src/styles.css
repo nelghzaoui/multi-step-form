@@ -1,2 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'tailwindcss';
+
+/* Defined customer palette for tailwind */
+@theme inline {
+  --color-marine: hsl(213, 96%, 18%);
+  --color-purplish: hsl(243, 100%, 62%);
+  --color-pastel: hsl(228, 100%, 84%);
+  --color-sky: hsl(206, 94%, 87%);
+  --color-strawberry: hsl(354, 84%, 57%);
+  --color-gray: hsl(231, 11%, 63%);
+  --color-light: hsl(229, 24%, 87%);
+  --color-magnolia: hsl(217, 100%, 97%);
+  --color-alabaster: hsl(231, 100%, 99%);
+  --color-white: hsl(0, 0%, 100%);
+}
+
+/* Import custom font */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400 500 700;
+  src: url('/assets/fonts/Ubuntu-Regular.ttf') format('truetype');
+}
+
+:root {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Ubuntu', sans-serif;
+  list-style-type: none;
+}
