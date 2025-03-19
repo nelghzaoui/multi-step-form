@@ -6,6 +6,7 @@ import {
   StepperComponent
 } from './shared';
 import { PersonalInfoComponent } from './components/personal-info.component';
+import { PlansComponent } from './components/plans.component';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { PersonalInfoComponent } from './components/personal-info.component';
     RouterOutlet,
     StepperComponent,
     PersonalInfoComponent,
+    PlansComponent,
     BackButtonComponent,
     NextButtonComponent
   ],
@@ -34,13 +36,15 @@ import { PersonalInfoComponent } from './components/personal-info.component';
           <!-- Stepper -->
           <nas-stepper [currentStep]="currentStep" [maxStep]="4" />
           <!-- CurrentStep -->
-          <nas-personal-info />
+          <nas-plans />
         </div>
 
         <!-- Navigation -->
         <nav class="bg-white p-5 flex justify-between shadow-2xl">
+          @if(currentStep > 1) {
           <nas-back-button />
-          <nas-next-button />
+          }
+          <nas-next-button class="ml-auto" />
         </nav>
       </div>
     </main>
