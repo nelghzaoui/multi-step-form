@@ -1,11 +1,29 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {
+  BackButtonComponent,
+  NextButtonComponent,
+  StepperComponent
+} from './shared';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [
+    RouterOutlet,
+    StepperComponent,
+    BackButtonComponent,
+    NextButtonComponent
+  ],
   template: `
-    <div class="bg-purplish text-3xl font-bold p-4">Personal info</div>
+    <header></header>
+
+    <main>
+      <!-- Stepper -->
+      <router-outlet />
+      <!-- Navigation -->
+    </main>
+
+    <footer></footer>
   `
 })
 export class AppComponent {
