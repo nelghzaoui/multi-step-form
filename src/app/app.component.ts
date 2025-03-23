@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import {
   BackButtonComponent,
   NextButtonComponent,
@@ -37,7 +36,6 @@ import { FormService } from './services/form.service';
         />
       </picture>
 
-      <!-- Contenu principal positionné au-dessus grâce à relative et z-index -->
       <div class="relative z-10 flex flex-col justify-between min-h-screen">
         <div class="flex flex-col items-center p-6 gap-11">
           <!-- Stepper -->
@@ -49,9 +47,9 @@ import { FormService } from './services/form.service';
             (values)="setFormValues($event)"
           />
           } @case (2) {
-          <nas-plans (selected)="enableNext($event)" />
+          <nas-plans (selected)="isNextDisable = !isNextDisable" />
           } @case (3) {
-          <nas-add-ons (selected)="enableNext($event)" />
+          <nas-add-ons />
           } @case (4) {
           <nas-summary />
           } @case (5) {
@@ -66,7 +64,8 @@ import { FormService } from './services/form.service';
           <nas-back-button (clicked)="previousStep()" />
           }
           <nas-next-button
-            [isDisable]="!isNextEnable"
+            [label]="currentStep === 4 ? 'Confirm' : 'Next Step'"
+            [isDisable]="isNextDisable"
             (clicked)="nextStep()"
             class="ml-auto"
           />
@@ -78,9 +77,8 @@ import { FormService } from './services/form.service';
 })
 export class AppComponent {
   private readonly formService = inject(FormService);
-  currentStep: number = 3;
-  errorMessage: string = '';
-  isNextEnable: boolean = false;
+  currentStep: number = 1;
+  isNextDisable: boolean = true;
 
   previousStep() {
     if (this.currentStep > 1) {
@@ -90,14 +88,11 @@ export class AppComponent {
 
   nextStep() {
     this.currentStep++;
-  }
-
-  enableNext(value: boolean) {
-    this.isNextEnable = value;
+    this.isNextDisable = true;
   }
 
   setFormValidity(value: boolean) {
-    this.isNextEnable = !value;
+    this.isNextDisable = !value;
   }
 
   setFormValues(values: PersonnalInfo) {

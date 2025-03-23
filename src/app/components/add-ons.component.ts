@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, output } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { CardComponent } from '../shared';
 import { AddOn } from '../models/add-on.class';
@@ -54,7 +54,6 @@ import { FormService } from '../services/form.service';
 })
 export class AddOnsComponent implements OnInit {
   private readonly formService = inject(FormService);
-  selected = output<boolean>();
   private readonly allAddOns: AddOn[] = [
     new AddOn(
       'Online service',
@@ -88,7 +87,6 @@ export class AddOnsComponent implements OnInit {
 
   ngOnInit() {
     this.fillPlans(this.formService.state.billing);
-    this.selected.emit(true);
   }
 
   onSelect(addOn: AddOn, event: Event) {
