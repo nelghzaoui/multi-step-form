@@ -47,7 +47,7 @@ import { FormService } from './services/form.service';
             (values)="setFormValues($event)"
           />
           } @case (2) {
-          <nas-plans (selected)="isNextDisable = !isNextDisable" />
+          <nas-plans (selected)="setPlan($event)" />
           } @case (3) {
           <nas-add-ons />
           } @case (4) {
@@ -97,5 +97,9 @@ export class AppComponent {
 
   setFormValues(values: PersonnalInfo) {
     this.formService.validateInfoStep(values);
+  }
+
+  setPlan(value: boolean) {
+    this.isNextDisable = value;
   }
 }

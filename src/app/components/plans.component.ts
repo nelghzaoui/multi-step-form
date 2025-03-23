@@ -1,4 +1,10 @@
-import { Component, inject, OnInit, output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  OnInit,
+  output
+} from '@angular/core';
 import { CardComponent } from '../shared';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { Billing, Plan } from '../models/plan.class';
@@ -19,7 +25,7 @@ import { FormService } from '../services/form.service';
         <fieldset class="flex flex-col gap-3">
           @for(plan of plans; track plan) {
           <label
-            [for]="plan.label"
+            for="{{ plan.label }}+{{ plan.price }}"
             class="flex cursor-pointer items-center gap-4 rounded-lg border border-light bg-white p-4 text-sm font-medium shadow-xs 
                  hover:border-gray has-[:checked]:border-purplish has-[:checked]:bg-magnolia"
           >
@@ -38,8 +44,9 @@ import { FormService } from '../services/form.service';
               name="plan"
               (change)="onSelectPlan(plan)"
               [value]="plan.label"
-              [id]="plan.label"
+              id="{{ plan.label }}+{{ plan.price }}"
               class="sr-only"
+              [checked]="plan.price === preSelectedPlan?.price"
             />
           </label>
           }
@@ -82,23 +89,26 @@ export class PlansComponent implements OnInit {
   ];
   readonly selected = output<boolean>();
   plans: Plan[] = [];
+  preSelectedPlan: Plan | null = null;
+  preSelectedBilling!: Billing;
   isPaidYearly: boolean = false;
 
   ngOnInit() {
-    this.fillPlans(Billing.Monthly);
+    const prefilledBilling = this.formService.state.billing;
+    const isPaidYearly = prefilledBilling === Billing.Yearly;
+    this.isPaidYearly = isPaidYearly;
+    this.fillPlans(prefilledBilling || Billing.Monthly);
+    this.preSelectedPlan = this.formService.state.plan;
   }
 
   onSelectPlan(selectedPlan: Plan) {
-    this.selected.emit(true);
+    this.selected.emit(false);
     this.formService.validatePlanStep(selectedPlan);
   }
 
   onChangeBilling() {
-    if (this.isPaidYearly) {
-      this.fillPlans(Billing.Yearly);
-    } else {
-      this.fillPlans(Billing.Monthly);
-    }
+    this.fillPlans(this.isPaidYearly ? Billing.Yearly : Billing.Monthly);
+    this.selected.emit(true);
   }
 
   private fillPlans(billing: Billing) {
