@@ -14,7 +14,7 @@ import {
   Validators
 } from '@angular/forms';
 import { PersonnalInfo } from '../models/personal-info.interface';
-import { distinctUntilChanged, filter } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs';
 import { FormService } from '../services/form.service';
 
 @Component({
@@ -34,7 +34,7 @@ import { FormService } from '../services/form.service';
         >
           <label for="name">Name</label>
           <input
-            class="border border-light p-2 rounded mb-2"
+            class="border border-light p-2 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-purplish"
             type="text"
             id="name"
             formControlName="name"
@@ -47,7 +47,7 @@ import { FormService } from '../services/form.service';
 
           <label for="email">Email</label>
           <input
-            class="border border-light p-2 rounded mb-2"
+            class="border border-light p-2 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-purplish"
             type="email"
             id="email"
             formControlName="email"
@@ -62,7 +62,7 @@ import { FormService } from '../services/form.service';
 
           <label for="phone">Phone</label>
           <input
-            class="border border-light p-2 rounded mb-2"
+            class="border border-light p-2 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-purplish"
             type="tel"
             id="phone"
             formControlName="phone"

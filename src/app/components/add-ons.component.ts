@@ -20,8 +20,9 @@ import { FormService } from '../services/form.service';
           @for(addOn of addOns; track addOn) {
           <label
             [for]="addOn.label"
+            tabindex="0"
             class="flex cursor-pointer items-center gap-4 rounded-lg border border-light bg-white p-4 text-sm font-medium shadow-xs 
-                 hover:border-gray has-[:checked]:border-purplish has-[:checked]:bg-magnolia"
+         hover:border-gray focus:outline-none focus:ring-2 focus:ring-purplish"
           >
             <input
               type="checkbox"
@@ -36,10 +37,10 @@ import { FormService } from '../services/form.service';
 
             <div class="flex justify-between items-center w-full">
               <div class="flex flex-col">
-                <span class="text-marine font-bold"> {{ addOn.label }}</span>
-                <span class="text-gray text-xs font-sm"
-                  >{{ addOn.description }}
-                </span>
+                <span class="text-marine font-bold">{{ addOn.label }}</span>
+                <span class="text-gray text-xs font-sm">{{
+                  addOn.description
+                }}</span>
               </div>
 
               <span class="text-purplish font-sm text-xs">
@@ -47,6 +48,7 @@ import { FormService } from '../services/form.service';
               </span>
             </div>
           </label>
+
           }
         </fieldset>
       </div>

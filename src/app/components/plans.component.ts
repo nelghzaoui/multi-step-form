@@ -1,14 +1,8 @@
-import {
-  AfterViewInit,
-  Component,
-  inject,
-  OnInit,
-  output
-} from '@angular/core';
-import { CardComponent } from '../shared';
-import { CurrencyPipe, NgClass } from '@angular/common';
-import { Billing, Plan } from '../models/plan.class';
+import { Component, inject, OnInit, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CurrencyPipe, NgClass } from '@angular/common';
+import { CardComponent } from '../shared';
+import { Billing, Plan } from '../models/plan.class';
 import { FormService } from '../services/form.service';
 
 @Component({
@@ -22,17 +16,18 @@ import { FormService } from '../services/form.service';
           You have the option of monthly or yearly billing.
         </p>
 
-        <fieldset class="flex flex-col gap-3">
+        <fieldset class="flex flex-col gap-3" aria-labelledby="plan-label">
+          <legend id="plan-label" class="sr-only">Select your plan</legend>
           @for(plan of plans; track plan) {
           <label
-            for="{{ plan.label }}+{{ plan.price }}"
-            class="flex cursor-pointer items-center gap-4 rounded-lg border border-light bg-white p-4 text-sm font-medium shadow-xs 
-                 hover:border-gray has-[:checked]:border-purplish has-[:checked]:bg-magnolia"
+            [for]="plan.label + '+' + plan.price"
+            class="flex cursor-pointer items-center gap-4 rounded-lg border border-light bg-white p-4 text-sm font-medium shadow-xs
+                 hover:border-gray focus:outline-none focus:ring-2 focus:ring-purplish"
           >
-            <img [src]="plan.iconPath" [alt]="plan.label" />
+            <img [src]="plan.iconPath" [alt]="plan.label + ' icon'" />
 
             <div class="flex flex-col">
-              <span class="text-marine font-bold"> {{ plan.label }}</span>
+              <span class="text-marine font-bold">{{ plan.label }}</span>
               <span class="text-gray text-sm">
                 {{ plan.price | currency : 'USD' : 'symbol' : '1.0-0' }}/{{
                   plan.billing
@@ -47,6 +42,7 @@ import { FormService } from '../services/form.service';
               id="{{ plan.label }}+{{ plan.price }}"
               class="sr-only"
               [checked]="plan.price === preSelectedPlan?.price"
+              [attr.aria-checked]="plan.price === preSelectedPlan?.price"
             />
           </label>
           }
@@ -54,11 +50,13 @@ import { FormService } from '../services/form.service';
 
         <div
           class="flex justify-center gap-6 border border-magnolia bg-magnolia p-4 rounded-lg"
+          role="group"
+          aria-label="Billing options"
         >
-          <span [ngClass]="{ 'text-gray': isPaidYearly }"> Monthly </span>
+          <span [ngClass]="{ 'text-gray': isPaidYearly }">Monthly</span>
           <label
             for="monthly"
-            class="relative flex gap-4 h-6 w-12 cursor-pointer rounded-full bg-marine transition [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-marine"
+            class="relative flex items-center gap-4 h-6 w-12 cursor-pointer rounded-full bg-marine transition [-webkit-tap-highlight-color:_transparent] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purplish"
           >
             <input
               type="checkbox"
@@ -66,12 +64,14 @@ import { FormService } from '../services/form.service';
               class="peer sr-only"
               [(ngModel)]="isPaidYearly"
               (change)="onChangeBilling()"
+              [attr.aria-checked]="isPaidYearly"
+              role="switch"
             />
             <span
               class="absolute inset-y-0 start-0 m-1 size-4 rounded-full bg-white transition-all peer-checked:start-6"
             ></span>
           </label>
-          <span [ngClass]="{ 'text-gray': !isPaidYearly }"> Yearly </span>
+          <span [ngClass]="{ 'text-gray': !isPaidYearly }">Yearly</span>
         </div>
       </div>
     </nas-card>

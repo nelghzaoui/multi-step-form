@@ -7,7 +7,7 @@ import { Component, computed, input } from '@angular/core';
   template: `
     <div class="flex gap-5">
       @for(step of steps(); track step) {
-      <button
+      <span
         [ngClass]="{
           'bg-sky border-sky text-marine': step === currentStep(),
           'border-white text-white': step !== currentStep()
@@ -15,7 +15,7 @@ import { Component, computed, input } from '@angular/core';
         class="border-1 rounded-4xl px-3 py-1"
       >
         {{ step }}
-      </button>
+      </span>
       }
     </div>
   `

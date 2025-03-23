@@ -14,7 +14,6 @@ export class FormService {
 
   validateInfoStep(formValues: PersonnalInfo) {
     this._state.formValues = formValues;
-    console.log(this._state);
   }
 
   validatePlanStep(selectedPlan: Plan) {
