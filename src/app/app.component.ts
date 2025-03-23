@@ -49,7 +49,7 @@ import { FormService } from './services/form.service';
             (values)="setFormValues($event)"
           />
           } @case (2) {
-          <nas-plans />
+          <nas-plans (selected)="enableNext($event)" />
           } @case (3) {
           <nas-add-ons />
           } @case (4) {
@@ -66,7 +66,7 @@ import { FormService } from './services/form.service';
           <nas-back-button (clicked)="previousStep()" />
           }
           <nas-next-button
-            [isDisable]="!isFormValid"
+            [isDisable]="!isNextEnable"
             (clicked)="nextStep()"
             class="ml-auto"
           />
@@ -78,9 +78,9 @@ import { FormService } from './services/form.service';
 })
 export class AppComponent {
   private readonly formService = inject(FormService);
-  currentStep: number = 1;
+  currentStep: number = 2;
   errorMessage: string = '';
-  isFormValid: boolean = false;
+  isNextEnable: boolean = false;
 
   previousStep() {
     if (this.currentStep > 1) {
@@ -98,8 +98,12 @@ export class AppComponent {
     // }
   }
 
-  setFormValidity(isValid: boolean) {
-    this.isFormValid = isValid;
+  enableNext(value: boolean) {
+    this.isNextEnable = value;
+  }
+
+  setFormValidity(value: boolean) {
+    this.isNextEnable = !value;
   }
 
   setFormValues(values: PersonnalInfo) {

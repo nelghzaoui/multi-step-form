@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, output } from '@angular/core';
 import { CardComponent } from '../shared';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, NgClass } from '@angular/common';
 import { Billing, Plan } from '../models/plan.class';
+import { FormsModule } from '@angular/forms';
+import { FormService } from '../services/form.service';
 
 @Component({
   selector: 'nas-plans',
-  imports: [CardComponent, CurrencyPipe],
+  imports: [CurrencyPipe, FormsModule, NgClass, CardComponent],
   template: `
     <nas-card>
       <div class="flex flex-col gap-4">
@@ -34,6 +36,7 @@ import { Billing, Plan } from '../models/plan.class';
             <input
               type="radio"
               name="plan"
+              (change)="onSelectPlan(plan)"
               [value]="plan.label"
               [id]="plan.label"
               class="sr-only"
@@ -45,28 +48,60 @@ import { Billing, Plan } from '../models/plan.class';
         <div
           class="flex justify-center gap-6 border border-magnolia bg-magnolia p-4 rounded-lg"
         >
-          <span> Monthly </span>
+          <span [ngClass]="{ 'text-gray': isPaidYearly }"> Monthly </span>
           <label
             for="monthly"
             class="relative flex gap-4 h-6 w-12 cursor-pointer rounded-full bg-marine transition [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-marine"
           >
-            <input type="checkbox" id="monthly" class="peer sr-only" />
+            <input
+              type="checkbox"
+              id="monthly"
+              class="peer sr-only"
+              [(ngModel)]="isPaidYearly"
+              (change)="onChangeBilling()"
+            />
             <span
               class="absolute inset-y-0 start-0 m-1 size-4 rounded-full bg-white transition-all peer-checked:start-6"
             ></span>
           </label>
-          <span> Yearly </span>
+          <span [ngClass]="{ 'text-gray': !isPaidYearly }"> Yearly </span>
         </div>
       </div>
     </nas-card>
   `
 })
 export class PlansComponent implements OnInit {
-  plans: Plan[] = [
+  private readonly formService = inject(FormService);
+  private readonly allPlans: Plan[] = [
     new Plan('Arcade', 9, Billing.Monthly, 'icon-arcade.svg'),
     new Plan('Advanced', 12, Billing.Monthly, 'icon-advanced.svg'),
-    new Plan('Pro', 15, Billing.Monthly, 'icon-pro.svg')
+    new Plan('Pro', 15, Billing.Monthly, 'icon-pro.svg'),
+    new Plan('Arcade', 90, Billing.Yearly, 'icon-arcade.svg'),
+    new Plan('Advanced', 120, Billing.Yearly, 'icon-advanced.svg'),
+    new Plan('Pro', 150, Billing.Yearly, 'icon-pro.svg')
   ];
+  readonly selected = output<boolean>();
+  plans: Plan[] = [];
+  isPaidYearly: boolean = false;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fillPlans(Billing.Monthly);
+  }
+
+  onSelectPlan(selectedPlan: Plan) {
+    this.selected.emit(true);
+    this.formService.validatePlanStep(selectedPlan);
+  }
+
+  onChangeBilling() {
+    if (this.isPaidYearly) {
+      this.fillPlans(Billing.Yearly);
+    } else {
+      this.fillPlans(Billing.Monthly);
+    }
+  }
+
+  private fillPlans(billing: Billing) {
+    this.plans = this.allPlans.filter((plan) => plan.billing === billing);
+  }
 }
