@@ -9,7 +9,7 @@ import { CurrencyPipe } from '@angular/common';
     <nas-card>
       <div class="flex flex-col gap-4">
         <h1 class="text-2xl font-bold text-marine">Pick add-ons</h1>
-        <p class="text-gray font-thin">
+        <p class="text-gray font-sm">
           Add-ons help enhance your gaming experience.
         </p>
 
@@ -25,18 +25,18 @@ import { CurrencyPipe } from '@angular/common';
               name="addon"
               [value]="addOn"
               [id]="addOn.label"
-              class="size-6 h-7 w- font-sm rounded-xl border-light has-[:checked]:p-1"
+              class="border border-light size-5 rounded"
             />
 
             <div class="flex justify-between items-center w-full">
               <div class="flex flex-col">
-                <span class="text-marine"> {{ addOn.label }}</span>
-                <span class="text-gray text-xs font-thin"
+                <span class="text-marine font-bold"> {{ addOn.label }}</span>
+                <span class="text-gray text-xs font-sm"
                   >{{ addOn.description }}
                 </span>
               </div>
 
-              <span class="text-purplish font-thin text-xs">
+              <span class="text-purplish font-sm text-xs">
                 +{{ addOn.price | currency : 'USD' : 'symbol' : '1.0-0' }}/yr
               </span>
             </div>

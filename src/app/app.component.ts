@@ -46,7 +46,7 @@ import { CompleteComponent } from './components/complete.component';
           <!-- <nas-plans /> -->
           <!-- <nas-add-ons /> -->
           <!-- <nas-summary /> -->
-          <nas-complete />
+          <!-- <nas-complete /> -->
         </div>
 
         <!-- Navigation -->

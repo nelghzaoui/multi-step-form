@@ -9,7 +9,7 @@ import { CurrencyPipe } from '@angular/common';
     <nas-card>
       <div class="flex flex-col gap-4">
         <h1 class="text-2xl font-bold text-marine">Select your plan</h1>
-        <p class="text-gray font-thin">
+        <p class="text-gray font-sm">
           You have the option of monthly or yearly billing.
         </p>
 
@@ -23,7 +23,7 @@ import { CurrencyPipe } from '@angular/common';
             <img [src]="plan.iconPath" [alt]="plan.label" />
 
             <div class="flex flex-col">
-              <span class="text-marine"> {{ plan.label }}</span>
+              <span class="text-marine font-bold"> {{ plan.label }}</span>
               <span class="text-gray text-sm">
                 {{ plan.price | currency : 'USD' : 'symbol' : '1.0-0' }}/{{
                   plan.billing

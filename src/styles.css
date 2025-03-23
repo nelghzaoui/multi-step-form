@@ -17,16 +17,36 @@
 
 /* Import custom font */
 @font-face {
-  font-family: 'Ubuntu';
+  font-family: 'Ubuntu Bold';
   font-style: normal;
   font-weight: 400 500 700;
   src: url('/assets/fonts/Ubuntu-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400 500 700;
+  src: url('/assets/fonts/Ubuntu-Regular.ttf') format('truetype');
 }
 
 :root {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Ubuntu', sans-serif;
   list-style-type: none;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Ubuntu Bold', sans-serif;
+}
+
+.font-bold {
+  font-family: 'Ubuntu Bold', sans-serif;
 }
