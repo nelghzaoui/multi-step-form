@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
   BackButtonComponent,
@@ -10,11 +10,12 @@ import { PlansComponent } from './components/plans.component';
 import { AddOnsComponent } from './components/add-ons.component';
 import { SummaryComponent } from './components/summary.component';
 import { CompleteComponent } from './components/complete.component';
+import { PersonnalInfo } from './models/personal-info.interface';
+import { FormService } from './services/form.service';
 
 @Component({
   selector: 'app-root',
   imports: [
-    RouterOutlet,
     StepperComponent,
     PersonalInfoComponent,
     PlansComponent,
@@ -42,24 +43,66 @@ import { CompleteComponent } from './components/complete.component';
           <!-- Stepper -->
           <nas-stepper [currentStep]="currentStep" [maxStep]="4" />
           <!-- CurrentStep -->
-          <!-- <nas-personal-info /> -->
-          <!-- <nas-plans /> -->
-          <!-- <nas-add-ons /> -->
-          <!-- <nas-summary /> -->
-          <!-- <nas-complete /> -->
+          @switch (currentStep) { @case (1) {
+          <nas-personal-info
+            (validated)="setFormValidity($event)"
+            (values)="setFormValues($event)"
+          />
+          } @case (2) {
+          <nas-plans />
+          } @case (3) {
+          <nas-add-ons />
+          } @case (4) {
+          <nas-summary />
+          } @case (5) {
+          <nas-complete />
+          } }
         </div>
 
         <!-- Navigation -->
+        @if(currentStep < 5) {
         <nav class="bg-white p-5 flex justify-between shadow-2xl">
           @if(currentStep > 1) {
-          <nas-back-button />
+          <nas-back-button (clicked)="previousStep()" />
           }
-          <nas-next-button class="ml-auto" />
+          <nas-next-button
+            [isDisable]="!isFormValid"
+            (clicked)="nextStep()"
+            class="ml-auto"
+          />
         </nav>
+        }
       </div>
     </main>
   `
 })
 export class AppComponent {
+  private readonly formService = inject(FormService);
   currentStep: number = 1;
+  errorMessage: string = '';
+  isFormValid: boolean = false;
+
+  previousStep() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
+  }
+
+  nextStep() {
+    this.currentStep++;
+    // switch (this.currentStep) {
+    //   case 1:
+    //     this.hasCompletedForm ? this.currentStep++ : this.currentStep;
+    //     this.errorMessage = this.cu
+    //     break;
+    // }
+  }
+
+  setFormValidity(isValid: boolean) {
+    this.isFormValid = isValid;
+  }
+
+  setFormValues(values: PersonnalInfo) {
+    this.formService.validateInfoStep(values);
+  }
 }
