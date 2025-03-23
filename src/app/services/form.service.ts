@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Plan } from '../models/plan.class';
+import { Billing, Plan } from '../models/plan.class';
 import { PersonnalInfo } from '../models/personal-info.interface';
 import { AddOn } from '../models/add-on.class';
 
@@ -8,7 +8,8 @@ export class FormService {
   private _state: State = {
     formValues: null,
     plan: null,
-    addOns: []
+    addOns: [],
+    billing: Billing.Monthly
   };
 
   validateInfoStep(formValues: PersonnalInfo) {
@@ -18,6 +19,7 @@ export class FormService {
 
   validatePlanStep(selectedPlan: Plan) {
     this._state.plan = selectedPlan;
+    this._state.billing = selectedPlan.billing;
   }
 
   validateAddOnsStep(addOns: AddOn[]) {
@@ -33,4 +35,5 @@ interface State {
   formValues: PersonnalInfo | null;
   plan: Plan | null;
   addOns: AddOn[] | null;
+  billing: Billing;
 }

@@ -51,7 +51,7 @@ import { FormService } from './services/form.service';
           } @case (2) {
           <nas-plans (selected)="enableNext($event)" />
           } @case (3) {
-          <nas-add-ons />
+          <nas-add-ons (selected)="enableNext($event)" />
           } @case (4) {
           <nas-summary />
           } @case (5) {
@@ -78,7 +78,7 @@ import { FormService } from './services/form.service';
 })
 export class AppComponent {
   private readonly formService = inject(FormService);
-  currentStep: number = 2;
+  currentStep: number = 3;
   errorMessage: string = '';
   isNextEnable: boolean = false;
 
@@ -90,12 +90,6 @@ export class AppComponent {
 
   nextStep() {
     this.currentStep++;
-    // switch (this.currentStep) {
-    //   case 1:
-    //     this.hasCompletedForm ? this.currentStep++ : this.currentStep;
-    //     this.errorMessage = this.cu
-    //     break;
-    // }
   }
 
   enableNext(value: boolean) {

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { CardComponent } from '../shared';
 import { AddOn } from '../models/add-on.class';
+import { Billing } from '../models/plan.class';
+import { FormService } from '../services/form.service';
 
 @Component({
   selector: 'nas-add-ons',
@@ -26,7 +28,9 @@ import { AddOn } from '../models/add-on.class';
               name="addon"
               [value]="addOn"
               [id]="addOn.label"
+              (change)="onSelect(addOn, $event)"
               class="border border-light size-5 rounded"
+              multiple="true"
             />
 
             <div class="flex justify-between items-center w-full">
@@ -49,11 +53,57 @@ import { AddOn } from '../models/add-on.class';
   `
 })
 export class AddOnsComponent implements OnInit {
-  addOns: AddOn[] = [
-    new AddOn('Online service', 'Access to multiplayer games', 1),
-    new AddOn('Larger storage', 'Extra 1TB of cloud save', 2),
-    new AddOn('Customizable profile', 'Customer theme on your profile', 2)
+  private readonly formService = inject(FormService);
+  selected = output<boolean>();
+  private readonly allAddOns: AddOn[] = [
+    new AddOn(
+      'Online service',
+      'Access to multiplayer games',
+      1,
+      Billing.Monthly
+    ),
+    new AddOn('Larger storage', 'Extra 1TB of cloud save', 2, Billing.Monthly),
+    new AddOn(
+      'Customizable profile',
+      'Customer theme on your profile',
+      2,
+      Billing.Monthly
+    ),
+    new AddOn(
+      'Online service',
+      'Access to multiplayer games',
+      10,
+      Billing.Yearly
+    ),
+    new AddOn('Larger storage', 'Extra 1TB of cloud save', 20, Billing.Yearly),
+    new AddOn(
+      'Customizable profile',
+      'Customer theme on your profile',
+      20,
+      Billing.Yearly
+    )
   ];
+  addOns: AddOn[] = [];
+  selectedAddOns: AddOn[] = [];
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fillPlans(this.formService.state.billing);
+    this.selected.emit(true);
+  }
+
+  onSelect(addOn: AddOn, event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    if (checkbox.checked) {
+      this.selectedAddOns.push(addOn);
+    } else {
+      this.selectedAddOns = this.selectedAddOns.filter(
+        (a) => a.label !== addOn.label
+      );
+    }
+    this.formService.validateAddOnsStep(this.selectedAddOns);
+  }
+
+  private fillPlans(billing: Billing) {
+    this.addOns = this.allAddOns.filter((plan) => plan.billing === billing);
+  }
 }
