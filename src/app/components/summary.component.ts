@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CardComponent } from '../shared';
 import { CurrencyPipe } from '@angular/common';
+import { FormService } from '../services/form.service';
 
 @Component({
   selector: 'nas-summary',
@@ -13,39 +14,61 @@ import { CurrencyPipe } from '@angular/common';
           Double-check everything look OK before confirming.
         </p>
 
+        @if(state && state.plan) {
         <div class="flex flex-col gap-6">
           <ul
             class="flex flex-col gap-2 border border-magnolia bg-alabaster rounded-lg p-3 text-gray"
           >
             <li class="flex justify-between items-center pb-1">
               <div class="flex flex-col items-start">
-                <span class="text-marine font-bold">Arcade (Monthly)</span>
+                <span class="text-marine font-bold">
+                  {{ state.plan.label }} ({{ state.billing }})</span
+                >
                 <button class="underline">Change</button>
               </div>
-              <span class="text-marine text-sm font-bold">$9/mo</span>
+              <span class="text-marine text-sm font-bold">
+                {{
+                  state.plan.price | currency : 'USD' : 'symbol' : '1.0-0'
+                }}/{{ state.billing }}
+              </span>
             </li>
 
             <div class="border-[0.5px] border-b-light text-light"></div>
 
+            @for(addOn of state.addOns; track addOn) {
             <li class="flex justify-between py-1">
-              <span>Online service</span>
-              <span class="text-marine text-sm">$1/mo</span>
+              <span>{{ addOn.label }}</span>
+              <span class="text-marine text-sm">
+                {{ addOn.price | currency : 'USD' : 'symbol' : '1.0-0' }}/{{
+                  addOn.billing
+                }}
+              </span>
             </li>
-            <li class="flex justify-between ">
-              <span>Larger storage</span>
-              <span class="text-marine text-sm">$2/mo</span>
-            </li>
+            }
           </ul>
 
           <div class="flex justify-between px-4 text-gray">
-            <span class="">Total (per month)</span>
-            <span class="text-purplish font-bold">+$12/mo</span>
+            <span class="">Total (per {{ state.billing }})</span>
+            <span class="text-purplish font-bold">
+              +{{ total | currency : 'USD' : 'symbol' : '1.0-0' }}/{{
+                state.billing
+              }}
+            </span>
           </div>
         </div>
+        }
       </div>
     </nas-card>
   `
 })
 export class SummaryComponent implements OnInit {
-  ngOnInit() {}
+  private readonly formService = inject(FormService);
+  readonly state = this.formService.state;
+  total: number = 0;
+
+  ngOnInit() {
+    this.total =
+      (this.state.plan?.price ?? 0) +
+      (this.state.addOns?.reduce((acc, curr) => acc + curr.price, 0) ?? 0);
+  }
 }
