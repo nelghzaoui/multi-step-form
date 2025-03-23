@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, output } from '@angular/core';
 import { CardComponent } from '../shared';
 import { CurrencyPipe } from '@angular/common';
 import { FormService } from '../services/form.service';
@@ -24,7 +24,9 @@ import { FormService } from '../services/form.service';
                 <span class="text-marine font-bold">
                   {{ state.plan.label }} ({{ state.billing }})</span
                 >
-                <button class="underline">Change</button>
+                <button (click)="changed.emit()" class="underline">
+                  Change
+                </button>
               </div>
               <span class="text-marine text-sm font-bold">
                 {{
@@ -64,6 +66,7 @@ import { FormService } from '../services/form.service';
 export class SummaryComponent implements OnInit {
   private readonly formService = inject(FormService);
   readonly state = this.formService.state;
+  changed = output();
   total: number = 0;
 
   ngOnInit() {

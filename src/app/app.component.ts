@@ -51,7 +51,7 @@ import { FormService } from './services/form.service';
           } @case (3) {
           <nas-add-ons />
           } @case (4) {
-          <nas-summary />
+          <nas-summary (changed)="onRedirect()" />
           } @case (5) {
           <nas-complete />
           } }
@@ -101,5 +101,9 @@ export class AppComponent {
 
   setPlan(value: boolean) {
     this.isNextDisable = value;
+  }
+
+  onRedirect() {
+    this.currentStep = 2;
   }
 }
