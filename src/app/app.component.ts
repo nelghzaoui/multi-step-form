@@ -88,7 +88,7 @@ export class AppComponent {
 
   nextStep() {
     this.currentStep++;
-    this.isNextDisable = true;
+    this.isNextDisable = false;
   }
 
   setFormValidity(value: boolean) {

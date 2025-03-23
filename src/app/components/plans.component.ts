@@ -99,6 +99,7 @@ export class PlansComponent implements OnInit {
     this.isPaidYearly = isPaidYearly;
     this.fillPlans(prefilledBilling || Billing.Monthly);
     this.preSelectedPlan = this.formService.state.plan;
+    this.selected.emit(true);
   }
 
   onSelectPlan(selectedPlan: Plan) {

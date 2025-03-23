@@ -29,6 +29,7 @@ import { FormService } from '../services/form.service';
               [value]="addOn"
               [id]="addOn.label"
               (change)="onSelect(addOn, $event)"
+              [checked]="isSelected(addOn)"
               class="border border-light size-5 rounded"
               multiple="true"
             />
@@ -87,6 +88,7 @@ export class AddOnsComponent implements OnInit {
 
   ngOnInit() {
     this.fillPlans(this.formService.state.billing);
+    this.selectedAddOns = this.formService.state.addOns || [];
   }
 
   onSelect(addOn: AddOn, event: Event) {
@@ -99,6 +101,10 @@ export class AddOnsComponent implements OnInit {
       );
     }
     this.formService.validateAddOnsStep(this.selectedAddOns);
+  }
+
+  isSelected(addOn: AddOn): boolean {
+    return this.selectedAddOns.some((a) => a.label === addOn.label);
   }
 
   private fillPlans(billing: Billing) {
