@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CardComponent } from '../shared';
 import { CurrencyPipe } from '@angular/common';
+import { Billing, Plan } from '../models/plan.class';
 
 @Component({
   selector: 'nas-plans',
@@ -61,35 +62,11 @@ import { CurrencyPipe } from '@angular/common';
   `
 })
 export class PlansComponent implements OnInit {
-  plans: Plan[] = plans;
+  plans: Plan[] = [
+    new Plan('Arcade', 9, Billing.Monthly, 'icon-arcade.svg'),
+    new Plan('Advanced', 12, Billing.Monthly, 'icon-advanced.svg'),
+    new Plan('Pro', 15, Billing.Monthly, 'icon-pro.svg')
+  ];
 
   ngOnInit() {}
 }
-
-interface Plan {
-  label: string;
-  price: number;
-  billing: string;
-  iconPath: string;
-}
-
-const plans: Plan[] = [
-  {
-    label: 'Arcade',
-    price: 9,
-    billing: 'mo',
-    iconPath: 'assets/images/icon-arcade.svg'
-  },
-  {
-    label: 'Advanced',
-    price: 12,
-    billing: 'mo',
-    iconPath: 'assets/images/icon-advanced.svg'
-  },
-  {
-    label: 'Pro',
-    price: 15,
-    billing: 'mo',
-    iconPath: 'assets/images/icon-pro.svg'
-  }
-];

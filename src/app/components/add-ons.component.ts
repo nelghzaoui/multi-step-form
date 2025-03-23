@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CardComponent } from '../shared';
 import { CurrencyPipe } from '@angular/common';
+import { CardComponent } from '../shared';
+import { AddOn } from '../models/add-on.class';
 
 @Component({
   selector: 'nas-add-ons',
@@ -48,31 +49,11 @@ import { CurrencyPipe } from '@angular/common';
   `
 })
 export class AddOnsComponent implements OnInit {
-  addOns: AddOn[] = addOns;
+  addOns: AddOn[] = [
+    new AddOn('Online service', 'Access to multiplayer games', 1),
+    new AddOn('Larger storage', 'Extra 1TB of cloud save', 2),
+    new AddOn('Customizable profile', 'Customer theme on your profile', 2)
+  ];
 
   ngOnInit() {}
 }
-
-interface AddOn {
-  label: string;
-  description: string;
-  price: number;
-}
-
-const addOns: AddOn[] = [
-  {
-    label: 'Online service',
-    description: 'Access to multiplayer games',
-    price: 1
-  },
-  {
-    label: 'Larger storage',
-    description: 'Extra 1TB of cloud save',
-    price: 2
-  },
-  {
-    label: 'Customizable profile',
-    description: 'Customer theme on your profile',
-    price: 2
-  }
-];
