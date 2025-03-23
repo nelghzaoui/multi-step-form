@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 import { PersonnalInfo } from '../models/personal-info.interface';
 import { distinctUntilChanged, filter } from 'rxjs';
+import { FormService } from '../services/form.service';
 
 @Component({
   selector: 'nas-personal-info',
@@ -77,6 +78,7 @@ import { distinctUntilChanged, filter } from 'rxjs';
 })
 export class PersonalInfoComponent implements OnInit, AfterViewInit {
   private readonly builder = inject(FormBuilder);
+  private readonly formService = inject(FormService);
   validated = output<boolean>();
   values = output<PersonnalInfo>();
 
@@ -92,6 +94,7 @@ export class PersonalInfoComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.prefillValues();
     this.form.valueChanges.pipe(distinctUntilChanged()).subscribe(() => {
       this.validated.emit(this.form.valid);
 
@@ -99,6 +102,18 @@ export class PersonalInfoComponent implements OnInit, AfterViewInit {
         this.values.emit(this.form.value);
       }
     });
+    this.form.updateValueAndValidity();
+  }
+
+  private prefillValues() {
+    const state = this.formService.state;
+    if (state && state.formValues) {
+      const { name, email, phone } = state.formValues;
+
+      this.name?.patchValue(name);
+      this.email?.patchValue(email);
+      this.phone?.patchValue(phone);
+    }
   }
 
   get name(): AbstractControl | null {
