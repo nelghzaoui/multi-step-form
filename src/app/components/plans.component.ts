@@ -9,18 +9,24 @@ import { FormService } from '../services/form.service';
   imports: [CurrencyPipe, FormsModule, NgClass],
   template: `
     <div class="flex flex-col gap-4">
-      <h1 class="text-2xl font-bold text-marine">Select your plan</h1>
-      <p class="text-gray font-sm">
+      <h1 class="text-2xl font-bold text-marine lg:text-4xl">
+        Select your plan
+      </h1>
+      <p class="text-gray font-sm lg:text-lg">
         You have the option of monthly or yearly billing.
       </p>
 
-      <fieldset class="flex flex-col gap-3" aria-labelledby="plan-label">
+      <fieldset
+        class="flex flex-col gap-3 lg:flex-row lg:gap-5"
+        aria-labelledby="plan-label"
+      >
         <legend id="plan-label" class="sr-only">Select your plan</legend>
         @for(plan of plans; track plan) {
         <label
           [for]="plan.label + '+' + plan.price"
           class="flex cursor-pointer items-center gap-4 rounded-lg border border-light bg-white p-4 text-sm font-medium shadow-xs
-                 hover:border-gray focus:outline-none focus:ring-2 focus:ring-purplish"
+                 hover:border-gray focus:outline-none focus:ring-2 focus:ring-purplish
+                 lg:flex-col lg:w-[150px] lg:max-w-3xl lg:gap-12 lg:items-start"
         >
           <img [src]="plan.iconPath" [alt]="plan.label + ' icon'" />
 

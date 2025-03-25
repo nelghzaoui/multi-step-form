@@ -131,6 +131,7 @@ export class PersonalInfoComponent implements OnInit, AfterViewInit {
       this.name?.patchValue(name);
       this.email?.patchValue(email);
       this.phone?.patchValue(phone);
+      this.validated.emit(true);
     }
   }
 

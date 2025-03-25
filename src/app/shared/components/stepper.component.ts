@@ -20,7 +20,7 @@ import { Component, computed, input } from '@angular/core';
 
         <div class="hidden lg:flex lg:flex-col text-white">
           <span class="text-sm font-thin">STEP {{ step }}</span>
-          <span class="uppercase font-bold tracking-wide">
+          <span class="uppercase text-sm font-bold tracking-wide">
             {{ stepTitles()[step - 1] }}
           </span>
         </div>

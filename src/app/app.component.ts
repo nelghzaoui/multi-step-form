@@ -55,21 +55,22 @@ import { FormService } from './services/form.service';
               [stepTitles]="titles"
             />
 
-            @switch (currentStep) { @case (1) {
-            <nas-personal-info
-              ngProjectAs="card-content"
-              (validated)="setFormValidity($event)"
-              (values)="setFormValues($event)"
-            />
-            } @case (2) {
-            <nas-plans (selected)="setPlan($event)" />
-            } @case (3) {
-            <nas-add-ons />
-            } @case (4) {
-            <nas-summary (changed)="onRedirect()" />
-            } @case (5) {
-            <nas-complete />
-            } }
+            <div ngProjectAs="card-content">
+              @switch (currentStep) { @case (1) {
+              <nas-personal-info
+                (validated)="setFormValidity($event)"
+                (values)="setFormValues($event)"
+              />
+              } @case (2) {
+              <nas-plans (selected)="setPlan($event)" />
+              } @case (3) {
+              <nas-add-ons />
+              } @case (4) {
+              <nas-summary (changed)="onRedirect()" />
+              } @case (5) {
+              <nas-complete />
+              } }
+            </div>
 
             <nav
               ngProjectAs="card-nav"

@@ -8,7 +8,8 @@ import { Component, input, output } from '@angular/core';
     <button
       (click)="clicked.emit()"
       [disabled]="isDisable()"
-      class="bg-marine cursor-pointer text-white p-3 px-4 rounded disabled:bg-gray focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purplish
+      class="bg-marine cursor-pointer text-white p-3 px-4 rounded disabled:bg-gray 
+               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purplish hover:bg-purplish
              lg:rounded-lg lg:p-4 lg:px-6 lg:font-bold
       "
       [ngClass]="{ 'bg-purplish': label() === 'Confirm' }"
