@@ -36,7 +36,9 @@ import { FormService } from './services/form.service';
         />
       </div>
 
-      <div class="relative z-10 flex flex-col justify-between min-h-screen">
+      <div
+        class="relative z-10 flex flex-col justify-between lg:justify-center min-h-screen"
+      >
         <div class="flex flex-col items-center p-6 gap-11">
           <!-- Stepper -->
           <nas-stepper
