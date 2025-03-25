@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import {
   BackButtonComponent,
   CardComponent,
@@ -41,7 +41,7 @@ import { FormService } from './services/form.service';
           <!-- Stepper -->
           <nas-stepper
             class="lg:hidden"
-            [currentStep]="currentStep"
+            [currentStep]="currentStep()"
             [maxStep]="4"
           />
           <!-- CurrentStep -->
@@ -50,13 +50,13 @@ import { FormService } from './services/form.service';
             <nas-stepper
               class="hidden lg:block"
               ngProjectAs="card-step"
-              [currentStep]="currentStep"
+              [currentStep]="currentStep()"
               [maxStep]="4"
               [stepTitles]="titles"
             />
 
             <div ngProjectAs="card-content">
-              @switch (currentStep) { @case (1) {
+              @switch (currentStep()) { @case (1) {
               <nas-personal-info
                 (validated)="setFormValidity($event)"
                 (values)="setFormValues($event)"
@@ -76,12 +76,12 @@ import { FormService } from './services/form.service';
               ngProjectAs="card-nav"
               class=" hidden lg:flex lg:justify-between"
             >
-              @if(currentStep > 1) {
+              @if(currentStep() > 1) {
               <nas-back-button (clicked)="previousStep()" />
               }
               <nas-next-button
-                [label]="currentStep === 4 ? 'Confirm' : 'Next Step'"
-                [isDisable]="isNextDisable"
+                [label]="buttonLabel()"
+                [isDisable]="isNextDisable()"
                 (clicked)="nextStep()"
                 class="ml-auto"
               />
@@ -90,14 +90,14 @@ import { FormService } from './services/form.service';
         </div>
 
         <!-- Navigation -->
-        @if(currentStep < 5) {
+        @if(currentStep() < 5) {
         <nav class="bg-white p-5 flex justify-between shadow-2xl lg:hidden">
-          @if(currentStep > 1) {
+          @if(currentStep() > 1) {
           <nas-back-button (clicked)="previousStep()" />
           }
           <nas-next-button
-            [label]="currentStep === 4 ? 'Confirm' : 'Next Step'"
-            [isDisable]="isNextDisable"
+            [label]="buttonLabel()"
+            [isDisable]="isNextDisable()"
             (clicked)="nextStep()"
             class="ml-auto"
           />
@@ -110,23 +110,25 @@ import { FormService } from './services/form.service';
 })
 export class AppComponent {
   private readonly formService = inject(FormService);
-  currentStep: number = 1;
-  isNextDisable: boolean = true;
+  currentStep = signal(1);
+  buttonLabel = computed(() =>
+    this.currentStep() === 4 ? 'Confirm' : 'Next Step'
+  );
+  isNextDisable = signal(true);
   titles: string[] = ['Your info', 'Select plan', 'Add-ons', 'Summary'];
 
   previousStep() {
-    if (this.currentStep > 1) {
-      this.currentStep--;
+    if (this.currentStep() > 1) {
+      this.currentStep.set(this.currentStep() - 1);
     }
   }
 
   nextStep() {
-    this.currentStep++;
-    this.isNextDisable = false;
+    this.currentStep.set(this.currentStep() + 1);
   }
 
   setFormValidity(value: boolean) {
-    this.isNextDisable = !value;
+    this.isNextDisable.set(!value);
   }
 
   setFormValues(values: PersonnalInfo) {
@@ -134,10 +136,10 @@ export class AppComponent {
   }
 
   setPlan(value: boolean) {
-    this.isNextDisable = value;
+    this.isNextDisable.set(value);
   }
 
   onRedirect() {
-    this.currentStep = 2;
+    this.currentStep.set(2);
   }
 }

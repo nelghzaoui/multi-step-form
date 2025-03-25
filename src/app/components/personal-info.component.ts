@@ -108,7 +108,6 @@ export class PersonalInfoComponent implements OnInit, AfterViewInit {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required]
     });
-    this.validated.emit(false);
   }
 
   ngAfterViewInit(): void {
@@ -131,8 +130,9 @@ export class PersonalInfoComponent implements OnInit, AfterViewInit {
       this.name?.patchValue(name);
       this.email?.patchValue(email);
       this.phone?.patchValue(phone);
-      this.validated.emit(true);
+      return this.validated.emit(true);
     }
+    this.validated.emit(false);
   }
 
   get name(): AbstractControl | null {
