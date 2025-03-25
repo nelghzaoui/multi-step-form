@@ -72,6 +72,7 @@ import { FormService } from './services/form.service';
               } }
             </div>
 
+            @if(currentStep() < 5) {
             <nav
               ngProjectAs="card-nav"
               class=" hidden lg:flex lg:justify-between"
@@ -86,6 +87,7 @@ import { FormService } from './services/form.service';
                 class="ml-auto"
               />
             </nav>
+            }
           </nas-card>
         </div>
 
@@ -110,7 +112,7 @@ import { FormService } from './services/form.service';
 })
 export class AppComponent {
   private readonly formService = inject(FormService);
-  currentStep = signal(1);
+  currentStep = signal(2);
   buttonLabel = computed(() =>
     this.currentStep() === 4 ? 'Confirm' : 'Next Step'
   );

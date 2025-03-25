@@ -20,7 +20,7 @@ import { FormService } from '../services/form.service';
           [for]="addOn.label"
           tabindex="0"
           class="flex cursor-pointer items-center gap-4 rounded-lg border border-light bg-white p-4 text-sm font-medium shadow-xs 
-         hover:border-gray focus:outline-none focus:ring-2 focus:ring-purplish
+         hover:border-gray focus:outline-none focus:ring-2 focus:ring-purplish has-[:checked]:border-purplish has-[:checked]:bg-magnolia
           lg:gap-6 w-[500px]
          "
         >

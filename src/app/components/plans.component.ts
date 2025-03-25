@@ -17,38 +17,49 @@ import { FormService } from '../services/form.service';
       </p>
 
       <fieldset
-        class="flex flex-col gap-3 lg:flex-row lg:gap-5"
+        class="flex flex-col gap-3 lg:flex-row lg:gap-5 lg:pt-8 lg:pb-4"
         aria-labelledby="plan-label"
       >
         <legend id="plan-label" class="sr-only">Select your plan</legend>
         @for(plan of plans; track plan) {
         <label
-          [for]="plan.label + '+' + plan.price"
-          class="flex cursor-pointer items-center gap-4 rounded-lg border border-light bg-white p-4 text-sm font-medium shadow-xs
-                 hover:border-gray focus:outline-none focus:ring-2 focus:ring-purplish
+          for="{{ plan.label }}_{{ plan.price }}"
+          tabindex="0"
+          class="flex cursor-pointer items-center gap-4 rounded-lg border border-light bg-white p-4 text-sm font-medium shadow-xs 
+               hover:border-marine focus:outline-none focus:ring-2 focus:ring-purplish has-[:checked]:border-purplish has-[:checked]:bg-magnolia 
                  lg:flex-col lg:w-[150px] lg:max-w-3xl lg:gap-12 lg:items-start"
         >
-          <img [src]="plan.iconPath" [alt]="plan.label + ' icon'" />
+          <input
+            id="{{ plan.label }}_{{ plan.price }}"
+            name="plan"
+            type="radio"
+            class="sr-only peer"
+            [attr.aria-checked]="plan.price === selectedPlanPrice"
+            [(ngModel)]="selectedPlanPrice"
+            (change)="onSelectPlan(plan)"
+            [value]="plan.price"
+          />
+
+          <img
+            [src]="plan.iconPath"
+            [alt]="plan.label + 'icon'"
+            class="w-10 h-10 object-contain transition-all duration-200 peer-checked:opacity-100 peer-focus:opacity-100"
+          />
 
           <div class="flex flex-col">
-            <span class="text-marine font-bold">{{ plan.label }}</span>
-            <span class="text-gray text-sm">
+            <span
+              class="text-marine font-bold transition-colors duration-200 peer-checked:text-purplish lg:text-lg"
+            >
+              {{ plan.label }}
+            </span>
+            <span class="text-gray text-sm lg:text-base">
               {{ plan.price | currency : 'USD' : 'symbol' : '1.0-0' }}/{{
                 plan.billing
               }}
             </span>
           </div>
-          <input
-            type="radio"
-            name="plan"
-            (change)="onSelectPlan(plan)"
-            [value]="plan.label"
-            id="{{ plan.label }}+{{ plan.price }}"
-            class="sr-only"
-            [checked]="plan.price === preSelectedPlan?.price"
-            [attr.aria-checked]="plan.price === preSelectedPlan?.price"
-          />
         </label>
+
         }
       </fieldset>
 
@@ -92,17 +103,18 @@ export class PlansComponent implements OnInit {
   ];
   readonly selected = output<boolean>();
   plans: Plan[] = [];
-  preSelectedPlan: Plan | null = null;
+  selectedPlanPrice: number = 9;
   preSelectedBilling!: Billing;
   isPaidYearly: boolean = false;
 
   ngOnInit() {
-    const prefilledBilling = this.formService.state.billing;
-    const isPaidYearly = prefilledBilling === Billing.Yearly;
-    this.isPaidYearly = isPaidYearly;
-    this.fillPlans(prefilledBilling || Billing.Monthly);
-    this.preSelectedPlan = this.formService.state.plan;
-    this.selected.emit(true);
+    this.isPaidYearly = this.formService.state.billing === Billing.Yearly;
+    this.fillPlans(this.isPaidYearly ? Billing.Yearly : Billing.Monthly);
+    this.selectedPlanPrice = this.formService.state.plan?.price || 0;
+
+    if (this.selectedPlanPrice) {
+      this.selected.emit(false);
+    }
   }
 
   onSelectPlan(selectedPlan: Plan) {

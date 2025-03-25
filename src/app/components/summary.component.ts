@@ -14,7 +14,7 @@ import { FormService } from '../services/form.service';
       </p>
 
       @if(state && state.plan) {
-      <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-6 lg:pt-6 w-[500px]">
         <ul
           class="flex flex-col gap-2 border border-magnolia bg-alabaster rounded-lg p-3 text-gray lg:p-5"
         >
@@ -52,7 +52,7 @@ import { FormService } from '../services/form.service';
           }
         </ul>
 
-        <div class="flex justify-between px-4 text-gray">
+        <div class="flex justify-between px-4 text-gray lg:pt-2">
           <span class="">Total (per {{ state.billing }})</span>
           <span class="text-purplish font-bold lg:text-xl">
             +{{ total | currency : 'USD' : 'symbol' : '1.0-0' }}/{{
