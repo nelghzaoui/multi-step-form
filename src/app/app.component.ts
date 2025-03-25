@@ -114,7 +114,7 @@ import { FormService } from './services/form.service';
 })
 export class AppComponent {
   private readonly formService = inject(FormService);
-  currentStep = signal(2);
+  currentStep = signal(1);
   buttonLabel = computed(() =>
     this.currentStep() === 4 ? 'Confirm' : 'Next Step'
   );
