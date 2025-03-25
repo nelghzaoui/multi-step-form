@@ -5,24 +5,34 @@ import { Component, computed, input } from '@angular/core';
   selector: 'nas-stepper',
   imports: [NgClass],
   template: `
-    <div class="flex gap-5">
+    <ul class="flex gap-5 lg:flex-col">
       @for(step of steps(); track step) {
-      <span
-        [ngClass]="{
-          'bg-sky border-sky text-marine': step === currentStep(),
-          'border-white text-white': step !== currentStep()
-        }"
-        class="border-1 rounded-4xl px-3 py-1"
-      >
-        {{ step }}
-      </span>
+      <li class="lg:flex lg:gap-3 lg:items-center">
+        <div
+          [ngClass]="{
+            'bg-sky border-sky text-marine': step === currentStep(),
+            'border-white text-white': step !== currentStep()
+          }"
+          class="border-1 rounded-4xl px-3 py-1"
+        >
+          {{ step }}
+        </div>
+
+        <div class="hidden lg:flex lg:flex-col text-white">
+          <span class="text-sm font-thin">STEP {{ step }}</span>
+          <span class="uppercase font-bold tracking-wide">
+            {{ stepTitles()[step - 1] }}
+          </span>
+        </div>
+      </li>
       }
-    </div>
+    </ul>
   `
 })
 export class StepperComponent {
   currentStep = input<number>();
   maxStep = input<number>(4);
+  stepTitles = input<string[]>([]);
   steps = computed(() =>
     Array.from({ length: this.maxStep() }, (_, i) => i + 1)
   );
