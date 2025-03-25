@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import {
   BackButtonComponent,
+  CardComponent,
   NextButtonComponent,
   StepperComponent
 } from './shared';
@@ -16,6 +17,7 @@ import { FormService } from './services/form.service';
   selector: 'app-root',
   imports: [
     StepperComponent,
+    CardComponent,
     PersonalInfoComponent,
     PlansComponent,
     BackButtonComponent,
@@ -37,23 +39,53 @@ import { FormService } from './services/form.service';
       <div class="relative z-10 flex flex-col justify-between min-h-screen">
         <div class="flex flex-col items-center p-6 gap-11">
           <!-- Stepper -->
-          <nas-stepper [currentStep]="currentStep" [maxStep]="4" />
+          <nas-stepper
+            class="lg:hidden"
+            [currentStep]="currentStep"
+            [maxStep]="4"
+          />
           <!-- CurrentStep -->
 
-          @switch (currentStep) { @case (1) {
-          <nas-personal-info
-            (validated)="setFormValidity($event)"
-            (values)="setFormValues($event)"
-          />
-          } @case (2) {
-          <nas-plans (selected)="setPlan($event)" />
-          } @case (3) {
-          <nas-add-ons />
-          } @case (4) {
-          <nas-summary (changed)="onRedirect()" />
-          } @case (5) {
-          <nas-complete />
-          } }
+          <nas-card>
+            <nas-stepper
+              class="hidden lg:block"
+              ngProjectAs="card-step"
+              [currentStep]="currentStep"
+              [maxStep]="4"
+              [stepTitles]="titles"
+            />
+
+            @switch (currentStep) { @case (1) {
+            <nas-personal-info
+              ngProjectAs="card-content"
+              (validated)="setFormValidity($event)"
+              (values)="setFormValues($event)"
+            />
+            } @case (2) {
+            <nas-plans (selected)="setPlan($event)" />
+            } @case (3) {
+            <nas-add-ons />
+            } @case (4) {
+            <nas-summary (changed)="onRedirect()" />
+            } @case (5) {
+            <nas-complete />
+            } }
+
+            <nav
+              ngProjectAs="card-nav"
+              class=" hidden lg:flex lg:justify-between"
+            >
+              @if(currentStep > 1) {
+              <nas-back-button (clicked)="previousStep()" />
+              }
+              <nas-next-button
+                [label]="currentStep === 4 ? 'Confirm' : 'Next Step'"
+                [isDisable]="isNextDisable"
+                (clicked)="nextStep()"
+                class="ml-auto"
+              />
+            </nav>
+          </nas-card>
         </div>
 
         <!-- Navigation -->
@@ -69,6 +101,7 @@ import { FormService } from './services/form.service';
             class="ml-auto"
           />
         </nav>
+
         }
       </div>
     </main>
@@ -78,6 +111,7 @@ export class AppComponent {
   private readonly formService = inject(FormService);
   currentStep: number = 1;
   isNextDisable: boolean = true;
+  titles: string[] = ['Your info', 'Select plan', 'Add-ons', 'Summary'];
 
   previousStep() {
     if (this.currentStep > 1) {
