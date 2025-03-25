@@ -26,21 +26,20 @@ import { FormService } from './services/form.service';
   ],
   template: `
     <main class="relative min-h-screen bg-magnolia">
-      <picture class="absolute inset-0 z-1">
-        <source media="(min-width: 800px)" srcset="bg-sidebar-mobile.svg" />
-        <source media="(min-width: 480px)" srcset="bg-sidebar-desktop.svg" />
+      <div class="absolute inset-0 z-1">
         <img
           src="assets/images/bg-sidebar-mobile.svg"
           alt="Description of the image"
-          class="w-full object-contain"
+          class="w-full object-contain lg:hidden"
         />
-      </picture>
+      </div>
 
       <div class="relative z-10 flex flex-col justify-between min-h-screen">
         <div class="flex flex-col items-center p-6 gap-11">
           <!-- Stepper -->
           <nas-stepper [currentStep]="currentStep" [maxStep]="4" />
           <!-- CurrentStep -->
+
           @switch (currentStep) { @case (1) {
           <nas-personal-info
             (validated)="setFormValidity($event)"
@@ -59,7 +58,7 @@ import { FormService } from './services/form.service';
 
         <!-- Navigation -->
         @if(currentStep < 5) {
-        <nav class="bg-white p-5 flex justify-between shadow-2xl">
+        <nav class="bg-white p-5 flex justify-between shadow-2xl lg:hidden">
           @if(currentStep > 1) {
           <nas-back-button (clicked)="previousStep()" />
           }
