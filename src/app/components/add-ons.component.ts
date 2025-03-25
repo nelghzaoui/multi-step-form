@@ -1,58 +1,55 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { CardComponent } from '../shared';
 import { AddOn } from '../models/add-on.class';
 import { Billing } from '../models/plan.class';
 import { FormService } from '../services/form.service';
 
 @Component({
   selector: 'nas-add-ons',
-  imports: [CardComponent, CurrencyPipe],
+  imports: [CurrencyPipe],
   template: `
-    <nas-card>
-      <div class="flex flex-col gap-4">
-        <h1 class="text-2xl font-bold text-marine">Pick add-ons</h1>
-        <p class="text-gray font-sm">
-          Add-ons help enhance your gaming experience.
-        </p>
+    <div class="flex flex-col gap-4">
+      <h1 class="text-2xl font-bold text-marine">Pick add-ons</h1>
+      <p class="text-gray font-sm">
+        Add-ons help enhance your gaming experience.
+      </p>
 
-        <fieldset class="flex flex-col gap-3 pt-2">
-          @for(addOn of addOns; track addOn) {
-          <label
-            [for]="addOn.label"
-            tabindex="0"
-            class="flex cursor-pointer items-center gap-4 rounded-lg border border-light bg-white p-4 text-sm font-medium shadow-xs 
+      <fieldset class="flex flex-col gap-3 pt-2">
+        @for(addOn of addOns; track addOn) {
+        <label
+          [for]="addOn.label"
+          tabindex="0"
+          class="flex cursor-pointer items-center gap-4 rounded-lg border border-light bg-white p-4 text-sm font-medium shadow-xs 
          hover:border-gray focus:outline-none focus:ring-2 focus:ring-purplish"
-          >
-            <input
-              type="checkbox"
-              name="addon"
-              [value]="addOn"
-              [id]="addOn.label"
-              (change)="onSelect(addOn, $event)"
-              [checked]="isSelected(addOn)"
-              class="border border-light size-5 rounded"
-              multiple="true"
-            />
+        >
+          <input
+            type="checkbox"
+            name="addon"
+            [value]="addOn"
+            [id]="addOn.label"
+            (change)="onSelect(addOn, $event)"
+            [checked]="isSelected(addOn)"
+            class="border border-light size-5 rounded"
+            multiple="true"
+          />
 
-            <div class="flex justify-between items-center w-full">
-              <div class="flex flex-col">
-                <span class="text-marine font-bold">{{ addOn.label }}</span>
-                <span class="text-gray text-xs font-sm">{{
-                  addOn.description
-                }}</span>
-              </div>
-
-              <span class="text-purplish font-sm text-xs">
-                +{{ addOn.price | currency : 'USD' : 'symbol' : '1.0-0' }}/yr
-              </span>
+          <div class="flex justify-between items-center w-full">
+            <div class="flex flex-col">
+              <span class="text-marine font-bold">{{ addOn.label }}</span>
+              <span class="text-gray text-xs font-sm">{{
+                addOn.description
+              }}</span>
             </div>
-          </label>
 
-          }
-        </fieldset>
-      </div>
-    </nas-card>
+            <span class="text-purplish font-sm text-xs">
+              +{{ addOn.price | currency : 'USD' : 'symbol' : '1.0-0' }}/yr
+            </span>
+          </div>
+        </label>
+
+        }
+      </fieldset>
+    </div>
   `
 })
 export class AddOnsComponent implements OnInit {

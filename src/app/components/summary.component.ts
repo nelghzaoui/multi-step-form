@@ -5,62 +5,58 @@ import { FormService } from '../services/form.service';
 
 @Component({
   selector: 'nas-summary',
-  imports: [CardComponent, CurrencyPipe],
+  imports: [CurrencyPipe],
   template: `
-    <nas-card>
-      <div class="flex flex-col gap-4">
-        <h1 class="text-2xl font-bold text-marine">Finishing up</h1>
-        <p class="text-gray font-sm">
-          Double-check everything look OK before confirming.
-        </p>
+    <div class="flex flex-col gap-4">
+      <h1 class="text-2xl font-bold text-marine">Finishing up</h1>
+      <p class="text-gray font-sm">
+        Double-check everything look OK before confirming.
+      </p>
 
-        @if(state && state.plan) {
-        <div class="flex flex-col gap-6">
-          <ul
-            class="flex flex-col gap-2 border border-magnolia bg-alabaster rounded-lg p-3 text-gray"
-          >
-            <li class="flex justify-between items-center pb-1">
-              <div class="flex flex-col items-start">
-                <span class="text-marine font-bold">
-                  {{ state.plan.label }} ({{ state.billing }})</span
-                >
-                <button (click)="changed.emit()" class="underline">
-                  Change
-                </button>
-              </div>
-              <span class="text-marine text-sm font-bold">
-                {{
-                  state.plan.price | currency : 'USD' : 'symbol' : '1.0-0'
-                }}/{{ state.billing }}
-              </span>
-            </li>
-
-            <div class="border-[0.5px] border-b-light text-light"></div>
-
-            @for(addOn of state.addOns; track addOn) {
-            <li class="flex justify-between py-1">
-              <span>{{ addOn.label }}</span>
-              <span class="text-marine text-sm">
-                {{ addOn.price | currency : 'USD' : 'symbol' : '1.0-0' }}/{{
-                  addOn.billing
-                }}
-              </span>
-            </li>
-            }
-          </ul>
-
-          <div class="flex justify-between px-4 text-gray">
-            <span class="">Total (per {{ state.billing }})</span>
-            <span class="text-purplish font-bold">
-              +{{ total | currency : 'USD' : 'symbol' : '1.0-0' }}/{{
+      @if(state && state.plan) {
+      <div class="flex flex-col gap-6">
+        <ul
+          class="flex flex-col gap-2 border border-magnolia bg-alabaster rounded-lg p-3 text-gray"
+        >
+          <li class="flex justify-between items-center pb-1">
+            <div class="flex flex-col items-start">
+              <span class="text-marine font-bold">
+                {{ state.plan.label }} ({{ state.billing }})</span
+              >
+              <button (click)="changed.emit()" class="underline">Change</button>
+            </div>
+            <span class="text-marine text-sm font-bold">
+              {{ state.plan.price | currency : 'USD' : 'symbol' : '1.0-0' }}/{{
                 state.billing
               }}
             </span>
-          </div>
+          </li>
+
+          <div class="border-[0.5px] border-b-light text-light"></div>
+
+          @for(addOn of state.addOns; track addOn) {
+          <li class="flex justify-between py-1">
+            <span>{{ addOn.label }}</span>
+            <span class="text-marine text-sm">
+              {{ addOn.price | currency : 'USD' : 'symbol' : '1.0-0' }}/{{
+                addOn.billing
+              }}
+            </span>
+          </li>
+          }
+        </ul>
+
+        <div class="flex justify-between px-4 text-gray">
+          <span class="">Total (per {{ state.billing }})</span>
+          <span class="text-purplish font-bold">
+            +{{ total | currency : 'USD' : 'symbol' : '1.0-0' }}/{{
+              state.billing
+            }}
+          </span>
         </div>
-        }
       </div>
-    </nas-card>
+      }
+    </div>
   `
 })
 export class SummaryComponent implements OnInit {
