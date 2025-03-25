@@ -5,9 +5,9 @@ import { Component, computed, input } from '@angular/core';
   selector: 'nas-stepper',
   imports: [NgClass],
   template: `
-    <ul class="flex gap-5 lg:flex-col">
+    <ul class="flex gap-5 lg:flex-col lg:gap-8">
       @for(step of steps(); track step) {
-      <li class="lg:flex lg:gap-3 lg:items-center">
+      <li class="lg:flex lg:gap-5 lg:items-center">
         <div
           [ngClass]="{
             'bg-sky border-sky text-marine': step === currentStep(),
@@ -20,7 +20,7 @@ import { Component, computed, input } from '@angular/core';
 
         <div class="hidden lg:flex lg:flex-col text-white">
           <span class="text-sm font-thin">STEP {{ step }}</span>
-          <span class="uppercase text-sm font-bold tracking-wide">
+          <span class="uppercase text-sm font-bold tracking-[.05em]">
             {{ stepTitles()[step - 1] }}
           </span>
         </div>

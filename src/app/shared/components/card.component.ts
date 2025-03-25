@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   template: `
     <div
       class="bg-white border border-white shadow-xl p-5 py-8 rounded-xl
-               lg:flex lg:py-4 lg:px-4 lg:relative"
+               lg:flex lg:py-4 lg:px-4 lg:relative lg:h-[700px]"
     >
       <img
         src="assets/images/bg-sidebar-desktop.svg"
@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
         class="w-full object-contain hidden lg:flex lg:w-auto"
       />
 
-      <div class="absolute top-12 left-12">
+      <div class="absolute top-14 left-14">
         <ng-content select="card-step"></ng-content>
       </div>
 

@@ -30,7 +30,7 @@ import { NgClass } from '@angular/common';
 
       <form
         [formGroup]="form"
-        class="flex flex-col text-marine text-sm font-thin gap-1 lg:text-lg lg:pt-6"
+        class="flex flex-col text-marine text-sm font-thin gap-1 lg:gap-4 lg:text-lg lg:pt-6"
       >
         <div class="flex justify-between">
           <label for="name">Name</label>
