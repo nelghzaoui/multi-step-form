@@ -9,18 +9,20 @@ import { FormService } from '../services/form.service';
   imports: [CurrencyPipe],
   template: `
     <div class="flex flex-col gap-4">
-      <h1 class="text-2xl font-bold text-marine">Pick add-ons</h1>
-      <p class="text-gray font-sm">
+      <h1 class="text-2xl font-bold text-marine lg:text-4xl">Pick add-ons</h1>
+      <p class="text-gray font-sm lg:text-lg">
         Add-ons help enhance your gaming experience.
       </p>
 
-      <fieldset class="flex flex-col gap-3 pt-2">
+      <fieldset class="flex flex-col gap-3 pt-2 lg:gap-5">
         @for(addOn of addOns; track addOn) {
         <label
           [for]="addOn.label"
           tabindex="0"
           class="flex cursor-pointer items-center gap-4 rounded-lg border border-light bg-white p-4 text-sm font-medium shadow-xs 
-         hover:border-gray focus:outline-none focus:ring-2 focus:ring-purplish"
+         hover:border-gray focus:outline-none focus:ring-2 focus:ring-purplish
+          lg:gap-6 w-[500px]
+         "
         >
           <input
             type="checkbox"
@@ -35,13 +37,15 @@ import { FormService } from '../services/form.service';
 
           <div class="flex justify-between items-center w-full">
             <div class="flex flex-col">
-              <span class="text-marine font-bold">{{ addOn.label }}</span>
-              <span class="text-gray text-xs font-sm">{{
-                addOn.description
-              }}</span>
+              <span class="text-marine font-bold lg:text-lg">
+                {{ addOn.label }}
+              </span>
+              <span class="text-gray text-xs font-sm lg:text-sm">
+                {{ addOn.description }}
+              </span>
             </div>
 
-            <span class="text-purplish font-sm text-xs">
+            <span class="text-purplish font-sm text-xs lg:text-sm">
               +{{ addOn.price | currency : 'USD' : 'symbol' : '1.0-0' }}/yr
             </span>
           </div>

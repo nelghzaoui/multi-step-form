@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
       </div>
 
       <div
-        class="lg:px-[7rem] lg:flex lg:flex-col lg:justify-between lg:pt-10 lg:pb-4"
+        class="lg:px-[6rem] lg:flex lg:flex-col lg:justify-between lg:pt-10 lg:pb-4"
       >
         <ng-content select="card-content" />
         <ng-content select="card-nav" />
